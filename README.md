@@ -2,16 +2,15 @@
 
 ## AI Research Papers – Tamil Guide
 
-This repository provides simplified explanations of modern **Artificial Intelligence (AI)** and **Retrieval-Augmented Generation (RAG)** research papers in Tamil.
-The goal is to make complex research papers and technical concepts easier to understand for students, developers, and AI enthusiasts who prefer learning in Tamil.
+This repository provides simplified explanations of modern **Artificial Intelligence (AI)** and **Retrieval-Augmented Generation (RAG)** research papers in Tamil. The goal is to make complex research papers easier to understand for students, developers, and AI enthusiasts who prefer learning in Tamil.
 
 ---
 
-## Research Paper Websites
+## Research Paper Resources
 
-| Category | Topic                | Sub Topic                         | Website                                                                                                                                                                        |
-| -------- | -------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| RAG      | Retrieval Strategies | Dense Retrieval Using Preposition | <a href="https://DHANUSHGCse.github.io/ResearchPapers-TamilGuide-Websites/RAG/Retrivel%20Strategies/Dense%20Retrieval%20Using%20Preposition/" target="_blank">Open Website</a> |
+| Category | Topic                | Sub Topic                         | Website                                                                                                                                                                | Paper                                                                                                                                                                                     |
+| -------- | -------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| RAG      | Retrieval Strategies | Dense Retrieval Using Preposition | <a href="https://DHANUSHGCse.github.io/ResearchPapers-TamilGuide-Websites/RAG/Retrivel%20Strategies/Dense%20Retrieval%20Using%20Preposition/" target="_blank">Open</a> | <a href="https://github.com/DHANUSHGCse/ResearchPapers-TamilGuide-Websites/blob/main/RAG/Retrivel%20Strategies/Dense%20Retrieval%20Using%20Preposition/paper.pdf" target="_blank">PDF</a> |
 
 ---
 
@@ -23,21 +22,20 @@ ResearchPapers-TamilGuide-Websites
 └── RAG
     └── Retrivel Strategies
         └── Dense Retrieval Using Preposition
-            └── index.html
+            ├── index.html
+            └── paper.pdf
 ```
-
-Each folder contains a small website explaining an AI research paper or concept in Tamil.
 
 ---
 
 ## Purpose
 
 * Explain AI research papers in simple Tamil
-* Help beginners understand concepts such as **RAG, embeddings, and retrieval strategies**
-* Provide structured learning resources for Tamil-speaking AI learners
+* Help beginners understand RAG, embeddings, and retrieval strategies
+* Provide structured AI learning resources for Tamil speakers
 
 ---
 
 ## Credits
 
-Content and explanation websites in this repository were created using **Claude AI**.
+Content and explanation websites were created using **Claude AI**.
