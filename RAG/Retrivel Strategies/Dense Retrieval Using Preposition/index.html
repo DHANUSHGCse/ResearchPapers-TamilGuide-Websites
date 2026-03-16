@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dense X Retrieval — Tamil Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0b0c14;
+  --bg2:#12131f;
+  --bg3:#1a1b2e;
+  --card:#1e2035;
+  --border:#2a2d4a;
+  --purple:#7c6ff7;
+  --purple-l:#2d2a5e;
+  --teal:#2dd4bf;
+  --teal-l:#0d3d38;
+  --amber:#f59e0b;
+  --amber-l:#3d2a00;
+  --red:#f87171;
+  --red-l:#3d1212;
+  --blue:#60a5fa;
+  --blue-l:#0d2a4a;
+  --green:#4ade80;
+  --green-l:#0d3322;
+  --text:#e2e4f0;
+  --muted:#6b7094;
+  --accent:#7c6ff7;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Sora',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:2px}
+
+/* ── NAV ───────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,12,20,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Space Mono',monospace;font-size:.85rem;color:var(--purple);letter-spacing:.05em}
+.nav-parts{display:flex;gap:.4rem;flex-wrap:wrap}
+.nav-btn{background:transparent;border:1px solid var(--border);border-radius:6px;padding:.25rem .6rem;font-size:.7rem;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Sora',sans-serif}
+.nav-btn:hover,.nav-btn.active{background:var(--purple);border-color:var(--purple);color:#fff}
+
+/* ── HERO ──────────────────────────────── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 1.5rem 3rem;text-align:center;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.2}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(124,111,247,.15) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:.4rem;border:1px solid var(--purple);border-radius:20px;padding:.3rem .9rem;font-size:.7rem;color:var(--purple);margin-bottom:1.5rem;font-family:'Space Mono',monospace;letter-spacing:.05em}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--purple);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-size:clamp(2.2rem,5vw,4rem);font-weight:700;line-height:1.1;margin-bottom:1rem}
+h1 span{color:var(--purple)}
+.hero-sub{font-size:1rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:2.5rem}
+.hero-stats{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
+.stat-chip{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.8rem 1.4rem;text-align:center}
+.stat-chip .num{font-size:1.5rem;font-weight:700;font-family:'Space Mono',monospace}
+.stat-chip .lbl{font-size:.65rem;color:var(--muted);margin-top:.2rem}
+.hero-cta{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.btn{padding:.7rem 1.5rem;border-radius:10px;border:none;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Sora',sans-serif}
+.btn-primary{background:var(--purple);color:#fff}
+.btn-primary:hover{background:#6b5ef0;transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--purple);color:var(--purple)}
+
+/* ── LAYOUT ────────────────────────────── */
+.container{max-width:900px;margin:0 auto;padding:0 1.5rem}
+section{padding:4rem 0}
+.section-header{margin-bottom:2.5rem}
+.part-label{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.1em;margin-bottom:.6rem}
+.section-title{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;line-height:1.2}
+.section-sub{color:var(--muted);font-size:.9rem;margin-top:.5rem;line-height:1.6}
+
+/* ── CARDS ─────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:border-color .2s}
+.card:hover{border-color:var(--purple)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+
+/* ── PART SECTIONS ─────────────────────── */
+.part-section{border-top:1px solid var(--border);padding-top:4rem;margin-top:1rem}
+.part-banner{border-radius:16px;padding:1.8rem;margin-bottom:2rem;position:relative;overflow:hidden}
+.part-banner::before{content:'';position:absolute;right:-2rem;top:-2rem;width:120px;height:120px;border-radius:50%;opacity:.15}
+.part-num{font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.1em;opacity:.7;margin-bottom:.4rem}
+.part-title{font-size:1.6rem;font-weight:700;margin-bottom:.3rem}
+.part-desc{font-size:.85rem;opacity:.7}
+
+/* colors per part */
+.p1{background:linear-gradient(135deg,var(--blue-l),var(--bg3));border:1px solid var(--blue)}
+.p1 .part-title{color:var(--blue)}
+.p1::before{background:var(--blue)}
+.p2{background:linear-gradient(135deg,var(--purple-l),var(--bg3));border:1px solid var(--purple)}
+.p2 .part-title{color:var(--purple)}
+.p2::before{background:var(--purple)}
+.p3{background:linear-gradient(135deg,var(--teal-l),var(--bg3));border:1px solid var(--teal)}
+.p3 .part-title{color:var(--teal)}
+.p3::before{background:var(--teal)}
+.p4{background:linear-gradient(135deg,var(--amber-l),var(--bg3));border:1px solid var(--amber)}
+.p4 .part-title{color:var(--amber)}
+.p4::before{background:var(--amber)}
+.p5{background:linear-gradient(135deg,var(--red-l),var(--bg3));border:1px solid var(--red)}
+.p5 .part-title{color:var(--red)}
+.p5::before{background:var(--red)}
+.p6{background:linear-gradient(135deg,#3d1a2e,var(--bg3));border:1px solid #d4537e}
+.p6 .part-title{color:#d4537e}
+.p7{background:linear-gradient(135deg,var(--green-l),var(--bg3));border:1px solid var(--green)}
+.p7 .part-title{color:var(--green)}
+.p8{background:linear-gradient(135deg,#1a1a1a,var(--bg3));border:1px solid var(--muted)}
+.p8 .part-title{color:var(--muted)}
+
+/* ── COMPARISON CARDS ──────────────────── */
+.compare-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+@media(max-width:640px){.compare-row{grid-template-columns:1fr}}
+.compare-card{border-radius:12px;padding:1.2rem;border:1px solid}
+.compare-card .cc-label{font-size:.65rem;font-family:'Space Mono',monospace;letter-spacing:.08em;margin-bottom:.6rem}
+.compare-card .cc-title{font-size:1rem;font-weight:600;margin-bottom:.5rem}
+.compare-card .cc-body{font-size:.8rem;line-height:1.6;color:var(--muted)}
+.compare-card .cc-verdict{margin-top:.8rem;font-size:.75rem;font-weight:600;padding:.3rem .7rem;border-radius:6px;display:inline-block}
+.cc-red{background:var(--red-l);border-color:var(--red)}
+.cc-red .cc-label{color:var(--red)}
+.cc-blue{background:var(--blue-l);border-color:var(--blue)}
+.cc-blue .cc-label{color:var(--blue)}
+.cc-teal{background:var(--teal-l);border-color:var(--teal)}
+.cc-teal .cc-label{color:var(--teal)}
+
+/* ── RULES ─────────────────────────────── */
+.rule-item{display:flex;gap:1rem;padding:1rem;border-radius:12px;background:var(--bg2);border:1px solid var(--border);margin-bottom:.8rem;transition:border-color .2s}
+.rule-item:hover{border-color:var(--purple)}
+.rule-num{min-width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
+.rule-content .rule-title{font-weight:600;font-size:.95rem;margin-bottom:.3rem}
+.rule-content .rule-body{font-size:.82rem;color:var(--muted);line-height:1.6}
+.rule-content .rule-eg{margin-top:.6rem;padding:.6rem .8rem;border-radius:8px;font-size:.78rem;line-height:1.5}
+
+/* ── BAR CHART ─────────────────────────── */
+.bar-chart{margin:1.5rem 0}
+.bar-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.7rem}
+.bar-label{min-width:120px;font-size:.8rem;color:var(--text)}
+.bar-track{flex:1;height:24px;background:var(--bg2);border-radius:6px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:.6rem;font-size:.72rem;font-weight:700;color:#fff;transition:width 1.2s cubic-bezier(.4,0,.2,1);width:0}
+.bar-val{min-width:44px;font-size:.82rem;font-weight:700;text-align:right;font-family:'Space Mono',monospace}
+
+/* ── STAT CARDS ────────────────────────── */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+@media(max-width:480px){.stat-grid{grid-template-columns:1fr 1fr}}
+.stat-card{border-radius:12px;padding:1.1rem;text-align:center;border:1px solid}
+.stat-card .s-num{font-size:1.6rem;font-weight:700;font-family:'Space Mono',monospace}
+.stat-card .s-lbl{font-size:.72rem;color:var(--muted);margin-top:.3rem;line-height:1.4}
+
+/* ── STEPS ─────────────────────────────── */
+.steps{margin:1.5rem 0}
+.step-item{display:flex;gap:1rem;align-items:stretch;margin-bottom:0}
+.step-left{display:flex;flex-direction:column;align-items:center}
+.step-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff;flex-shrink:0;z-index:1}
+.step-line{width:2px;flex:1;margin:4px auto;min-height:16px;background:var(--border)}
+.step-body{flex:1;padding-bottom:1.2rem}
+.step-title{font-weight:600;font-size:.92rem;margin-bottom:.3rem}
+.step-desc{font-size:.8rem;color:var(--muted);line-height:1.65}
+.step-tag{display:inline-block;font-size:.65rem;padding:.2rem .6rem;border-radius:10px;margin-top:.4rem;font-family:'Space Mono',monospace}
+
+/* ── TABLE ─────────────────────────────── */
+.styled-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1.2rem 0}
+.styled-table th{background:var(--purple-l);color:var(--purple);padding:.7rem .9rem;text-align:left;font-weight:600;font-size:.75rem;letter-spacing:.04em}
+.styled-table td{padding:.7rem .9rem;border-bottom:1px solid var(--border);color:var(--text)}
+.styled-table tr:nth-child(even) td{background:var(--bg2)}
+.styled-table tr:hover td{background:var(--bg3)}
+.styled-table th:first-child{border-radius:8px 0 0 0}
+.styled-table th:last-child{border-radius:0 8px 0 0}
+
+/* ── CALLOUT ───────────────────────────── */
+.callout{border-radius:12px;padding:1.1rem 1.3rem;margin:1.2rem 0;border-left:3px solid;font-size:.85rem;line-height:1.7}
+.callout-purple{background:var(--purple-l);border-color:var(--purple);color:#c4bffa}
+.callout-teal{background:var(--teal-l);border-color:var(--teal);color:#99ece2}
+.callout-amber{background:var(--amber-l);border-color:var(--amber);color:#fcd68a}
+.callout-blue{background:var(--blue-l);border-color:var(--blue);color:#93c5fd}
+
+/* ── CHECKLIST ─────────────────────────── */
+.checklist{margin:1rem 0}
+.check-item{display:flex;gap:.8rem;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid var(--border)}
+.check-item:last-child{border-bottom:none}
+.check-icon{min-width:22px;height:22px;border-radius:50%;background:var(--teal-l);border:1px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--teal);margin-top:.1rem;flex-shrink:0}
+.check-text{font-size:.85rem;line-height:1.6;color:var(--text)}
+
+/* ── PROPOSITION EXPLAINER ─────────────── */
+.prop-demo{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin:1.5rem 0}
+.prop-original{font-size:.82rem;color:var(--muted);line-height:1.7;padding:.8rem;background:var(--bg3);border-radius:8px;margin-bottom:1rem;border-left:3px solid var(--muted)}
+.prop-arrow{text-align:center;color:var(--purple);font-size:1.2rem;margin:.6rem 0}
+.prop-list{display:flex;flex-direction:column;gap:.5rem}
+.prop-fact{display:flex;align-items:flex-start;gap:.7rem;padding:.6rem .9rem;background:var(--teal-l);border:1px solid var(--teal);border-radius:8px;font-size:.82rem;line-height:1.5;color:#99ece2}
+.prop-num{min-width:20px;height:20px;border-radius:50%;background:var(--teal);color:#000;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:.05rem}
+
+/* ── RAG FLOW ──────────────────────────── */
+.rag-flow{display:flex;flex-direction:column;gap:.5rem;margin:1.5rem 0}
+.rag-step{display:flex;gap:1rem;align-items:center;padding:.9rem 1.1rem;border-radius:10px;border:1px solid var(--border);background:var(--bg2);transition:all .2s;cursor:default}
+.rag-step:hover{border-color:var(--purple);background:var(--bg3)}
+.rag-icon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.rag-content .rt{font-weight:600;font-size:.9rem;margin-bottom:.15rem}
+.rag-content .rd{font-size:.78rem;color:var(--muted)}
+
+/* ── FINDINGS ──────────────────────────── */
+.findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+@media(max-width:580px){.findings-grid{grid-template-columns:1fr}}
+.finding-card{padding:1.2rem;border-radius:12px;border:1px solid var(--border);background:var(--bg2)}
+.finding-num{font-size:2rem;font-weight:700;font-family:'Space Mono',monospace;margin-bottom:.3rem}
+.finding-label{font-size:.78rem;color:var(--muted);line-height:1.5}
+
+/* ── LIMITS ────────────────────────────── */
+.limit-card{display:flex;gap:1rem;padding:1.1rem;border-radius:12px;border:1px solid var(--border);background:var(--bg2);margin-bottom:.8rem}
+.limit-badge{min-width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.limit-title{font-weight:600;font-size:.9rem;margin-bottom:.3rem}
+.limit-body{font-size:.8rem;color:var(--muted);line-height:1.6}
+.limit-future{font-size:.72rem;margin-top:.5rem;padding:.25rem .7rem;border-radius:6px;display:inline-block;font-family:'Space Mono',monospace}
+
+/* ── FINAL SUMMARY ─────────────────────── */
+.summary-hero{background:linear-gradient(135deg,var(--purple-l),var(--teal-l));border:1px solid var(--purple);border-radius:18px;padding:2rem;margin:2rem 0;text-align:center}
+.summary-hero h3{font-size:1.3rem;font-weight:700;margin-bottom:.5rem}
+.summary-hero p{font-size:.85rem;color:var(--muted);max-width:500px;margin:0 auto;line-height:1.7}
+
+/* ── QUICK REF ─────────────────────────── */
+.qr-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:1.5rem 0}
+@media(max-width:580px){.qr-grid{grid-template-columns:1fr}}
+.qr-item{padding:.8rem 1rem;border-radius:10px;background:var(--bg2);border:1px solid var(--border)}
+.qr-key{font-size:.7rem;font-family:'Space Mono',monospace;color:var(--purple);margin-bottom:.3rem}
+.qr-val{font-size:.82rem;color:var(--text);line-height:1.5}
+
+/* ── BACK TO TOP ───────────────────────── */
+.back-top{position:fixed;bottom:1.5rem;right:1.5rem;width:40px;height:40px;border-radius:50%;background:var(--purple);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;transition:all .2s;z-index:99;opacity:0;pointer-events:none}
+.back-top.show{opacity:1;pointer-events:auto}
+.back-top:hover{transform:translateY(-3px)}
+
+/* ── PROGRESS BAR ──────────────────────── */
+.reading-bar{position:fixed;top:0;left:0;height:2px;background:var(--purple);z-index:200;transition:width .1s linear;width:0}
+
+/* ── DIVIDER ───────────────────────────── */
+.divider{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
+
+/* ── MISC ──────────────────────────────── */
+strong{color:var(--text)}
+em{color:var(--purple);font-style:normal;font-weight:600}
+.mono{font-family:'Space Mono',monospace;font-size:.85em}
+</style>
+</head>
+<body>
+
+<div class="reading-bar" id="readingBar"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Dense X Retrieval</div>
+  <div class="nav-parts">
+    <button class="nav-btn" onclick="scrollTo('p1')">P1</button>
+    <button class="nav-btn" onclick="scrollTo('p2')">P2</button>
+    <button class="nav-btn" onclick="scrollTo('p3')">P3</button>
+    <button class="nav-btn" onclick="scrollTo('p4')">P4</button>
+    <button class="nav-btn" onclick="scrollTo('p5')">P5</button>
+    <button class="nav-btn" onclick="scrollTo('p6')">P6</button>
+    <button class="nav-btn" onclick="scrollTo('p7')">P7</button>
+    <button class="nav-btn" onclick="scrollTo('p8')">P8</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div style="position:relative;z-index:1">
+    <div class="badge">EMNLP 2024 · Tong Chen et al.</div>
+    <h1>Dense <span>X</span> Retrieval<br/>Tamil Study Guide</h1>
+    <p class="hero-sub">Wikipedia-ஐ 25.7 கோடி atomic facts ஆக பிரிச்சு, AI retrieval-ஐ revolutionize பண்ணாங்க. எப்படின்னு பார்ப்போம்!</p>
+    <div class="hero-stats">
+      <div class="stat-chip"><div class="num" style="color:var(--blue)">4.1கோடி</div><div class="lbl">Passages</div></div>
+      <div class="stat-chip"><div class="num" style="color:var(--teal)">11.4கோடி</div><div class="lbl">Sentences</div></div>
+      <div class="stat-chip"><div class="num" style="color:var(--amber)">25.7கோடி</div><div class="lbl">Propositions ★</div></div>
+      <div class="stat-chip"><div class="num" style="color:var(--purple)">+25%</div><div class="lbl">Rare topics gain</div></div>
+    </div>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="scrollTo('p1')">படிக்க தொடங்கு →</button>
+      <button class="btn btn-secondary" onclick="scrollTo('p8')">Summary பார்க்க</button>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+<!-- ════════════ PART 1 ════════════ -->
+<div class="part-section" id="p1">
+  <div class="part-banner p1">
+    <div class="part-num">PART 01 / 08</div>
+    <div class="part-title">Problem என்ன?</div>
+    <div class="part-desc">தகவல் தேடலில் யாரும் கேக்காத கேள்வி</div>
+  </div>
+
+  <h3 style="color:var(--blue);margin-bottom:.8rem;font-size:1rem">Dense Retrieval என்றால் என்ன?</h3>
+  <p style="font-size:.88rem;line-height:1.75;color:var(--muted);margin-bottom:1.5rem">
+    AI ஒரு கேள்விக்கு பதில் தேட Wikipedia மாதிரி பெரிய database-ல search பண்ணும். இதை <em>Dense Retrieval</em> னு சொல்வாங்க. Search பண்ணும் முன்னாடி ஒரு முக்கியமான decision — <strong>எந்த size-ல text எடுப்போம்?</strong>
+  </p>
+
+  <div class="compare-row">
+    <div class="compare-card cc-red">
+      <div class="cc-label">PASSAGE</div>
+      <div class="cc-title">முழு பக்கம்</div>
+      <div class="cc-body">~100 வார்த்தைகள். நிறைய தகவல் வரும் — ஆனா தேவையில்லாதவையும் சேர்ந்திருக்கும். AI confuse ஆகும்!</div>
+      <div class="cc-verdict" style="background:var(--red-l);color:var(--red)">✗ Too noisy</div>
+    </div>
+    <div class="compare-card cc-blue">
+      <div class="cc-label">SENTENCE</div>
+      <div class="cc-title">ஒரு வாக்கியம்</div>
+      <div class="cc-body">~20 வார்த்தைகள். கொஞ்சம் better... ஆனா "எந்த கோபுரம்?" என்று context தெரியாது!</div>
+      <div class="cc-verdict" style="background:var(--blue-l);color:var(--blue)">~ Not self-contained</div>
+    </div>
+    <div class="compare-card cc-teal">
+      <div class="cc-label">PROPOSITION ★</div>
+      <div class="cc-title">ஒரு உண்மை</div>
+      <div class="cc-body">~11 வார்த்தைகள். "பிசா கோபுரம் 3.99° சாய்ந்துள்ளது" — சின்னதா, தெளிவா, complete!</div>
+      <div class="cc-verdict" style="background:var(--teal-l);color:var(--teal)">★ Perfect!</div>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <strong>Paper-ஓட Main Question:</strong> யாரும் கேக்காத கேள்வியை இந்த paper கேட்டது — <strong>Retrieval unit எந்த size-ல இருக்கணும்?</strong> இதுவரை எல்லாரும் இந்த decision-ஐ ignore பண்ணிட்டாங்க!
+  </div>
+</div>
+
+<!-- ════════════ PART 2 ════════════ -->
+<div class="part-section" id="p2">
+  <div class="part-banner p2">
+    <div class="part-num">PART 02 / 08</div>
+    <div class="part-title">Proposition என்றால் என்ன?</div>
+    <div class="part-desc">3 defining rules மற்றும் examples</div>
+  </div>
+
+  <div class="callout callout-purple" style="margin-bottom:1.5rem">
+    <strong>Definition:</strong> Proposition = ஒரு atomic expression — <strong>ஒரே ஒரு fact, minimum size, தனியா படிச்சாலும் புரியும்.</strong>
+  </div>
+
+  <h3 style="color:var(--purple);margin-bottom:1rem;font-size:1rem">மூன்று Rules:</h3>
+
+  <div class="rule-item">
+    <div class="rule-num" style="background:var(--blue);color:#fff">1</div>
+    <div class="rule-content">
+      <div class="rule-title">ஒரே உண்மை மட்டும் இருக்கணும்</div>
+      <div class="rule-body">ஒரு proposition-ல ஒரே ஒரு fact இருக்கணும். இரண்டு facts இருந்தா — அது இரண்டு propositions!</div>
+      <div class="rule-eg" style="background:var(--red-l);color:var(--red)">✗ "கோபுரம் 3.99° சாய்ந்துள்ளது மற்றும் 56m உயரம்" — இரண்டு facts!</div>
+      <div class="rule-eg" style="background:var(--teal-l);color:var(--teal);margin-top:.4rem">✓ "பிசா கோபுரம் 3.99° சாய்ந்துள்ளது" — ஒன்னே ஒன்னு!</div>
+    </div>
+  </div>
+
+  <div class="rule-item">
+    <div class="rule-num" style="background:var(--purple);color:#fff">2</div>
+    <div class="rule-content">
+      <div class="rule-title">Minimum size — இன்னும் பிரிக்க முடியாது</div>
+      <div class="rule-body">இன்னும் சின்னதா பிரிக்க முடியாம இருக்கணும். பிரிக்க முடிஞ்சா — அதுவும் proposition இல்ல!</div>
+      <div class="rule-eg" style="background:var(--red-l);color:var(--red)">✗ "அருண் படிச்சான், விளையாடினான்" — இரண்டா பிரிக்கலாம்!</div>
+      <div class="rule-eg" style="background:var(--teal-l);color:var(--teal);margin-top:.4rem">✓ "அருண் படிச்சான்" — இதை இன்னும் பிரிக்க முடியாது!</div>
+    </div>
+  </div>
+
+  <div class="rule-item">
+    <div class="rule-num" style="background:var(--teal);color:#000">3</div>
+    <div class="rule-content">
+      <div class="rule-title">Self-contained — தனியா புரியணும்</div>
+      <div class="rule-body">"it", "he", "அது", "அவன்" மாதிரி words வேண்டாம். பதிலா full name சொல்லணும். வெளியே context இல்லாம புரியணும்!</div>
+      <div class="rule-eg" style="background:var(--red-l);color:var(--red)">✗ "அது 3.99° சாய்ந்துள்ளது" — "அது" என்னன்னு தெரியல!</div>
+      <div class="rule-eg" style="background:var(--teal-l);color:var(--teal);margin-top:.4rem">✓ "பிசா கோபுரம் 3.99° சாய்ந்துள்ளது" — crystal clear!</div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--purple);margin:1.5rem 0 .8rem;font-size:1rem">Live உதாரணம் — ஒரு பத்தி → Propositions:</h3>
+  <div class="prop-demo">
+    <div class="prop-original">
+      📄 <strong>Original Passage:</strong> "1990 முதல் 2001 வரை சீரமைப்பு நடந்தது. அதற்கு முன் கோபுரம் 5.5° சாய்ந்திருந்தது. இப்போது 3.99° சாய்ந்துள்ளது. கோபுரத்தின் உச்சி 3.9 மீட்டர் விலகியுள்ளது."
+    </div>
+    <div class="prop-arrow">↓ Propositionizer</div>
+    <div class="prop-list">
+      <div class="prop-fact"><div class="prop-num">1</div>பிசா கோபுரம் 1990 முதல் 2001 வரை சீரமைக்கப்பட்டது</div>
+      <div class="prop-fact"><div class="prop-num">2</div>சீரமைப்பிற்கு முன் பிசா கோபுரம் 5.5° சாய்ந்திருந்தது</div>
+      <div class="prop-fact"><div class="prop-num">3</div>பிசா கோபுரம் இப்போது 3.99° சாய்ந்துள்ளது</div>
+      <div class="prop-fact"><div class="prop-num">4</div>பிசா கோபுரத்தின் உச்சி மையத்திலிருந்து 3.9 மீட்டர் விலகியுள்ளது</div>
+    </div>
+  </div>
+  <div class="callout callout-teal">1 passage → 4 clean propositions! ஒவ்வொன்னும் தனியா படிச்சாலும் புரியும்!</div>
+</div>
+
+<!-- ════════════ PART 3 ════════════ -->
+<div class="part-section" id="p3">
+  <div class="part-banner p3">
+    <div class="part-num">PART 03 / 08</div>
+    <div class="part-title">FactoidWiki எப்படி கட்டினாங்க?</div>
+    <div class="part-desc">GPT-4 → Flan-T5 Knowledge Distillation</div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card" style="background:var(--blue-l);border-color:var(--blue)">
+      <div class="s-num" style="color:var(--blue)">4.1கோடி</div>
+      <div class="s-lbl">Passages<br/>சராசரி 58 words</div>
+    </div>
+    <div class="stat-card" style="background:var(--teal-l);border-color:var(--teal)">
+      <div class="s-num" style="color:var(--teal)">11.4கோடி</div>
+      <div class="s-lbl">Sentences<br/>சராசரி 21 words</div>
+    </div>
+    <div class="stat-card" style="background:var(--amber-l);border-color:var(--amber)">
+      <div class="s-num" style="color:var(--amber)">25.7கோடி</div>
+      <div class="s-lbl">Propositions ★<br/>சராசரி 11 words</div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--teal);margin:1.5rem 0 1rem;font-size:1rem">4 Steps — எப்படி Build பண்ணாங்க:</h3>
+  <div class="steps">
+    <div class="step-item">
+      <div class="step-left"><div class="step-circle" style="background:var(--purple)">1</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <div class="step-title">Wikipedia எடுத்தாங்க</div>
+        <div class="step-desc">2021 October Wikipedia dump. Tables, images எல்லாத்தையும் நீக்கி, clean text மட்டும் வச்சாங்க. கோடான கோடி வார்த்தைகள்!</div>
+        <span class="step-tag" style="background:var(--purple-l);color:var(--purple)">RAW DATA</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-left"><div class="step-circle" style="background:var(--blue)">2</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <div class="step-title">GPT-4 — Teacher Model</div>
+        <div class="step-desc">42,000 passages-ஐ GPT-4-கிட்ட கொடுத்தாங்க. "இந்த பத்தியை proposition-ஆ பிரி" னு கேட்டாங்க. இந்த 42k examples training data ஆச்சு!</div>
+        <span class="step-tag" style="background:var(--blue-l);color:var(--blue)">TEACHER MODEL</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-left"><div class="step-circle" style="background:var(--teal)">3</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <div class="step-title">Flan-T5 — Propositionizer (Student)</div>
+        <div class="step-desc">GPT-4 miga expensive — முழு Wikipedia-க்கு use பண்ண முடியாது! அதனால GPT-4 output வச்சு சின்ன Flan-T5 model train பண்ணாங்க. F1 score: 0.822 — 98%+ accurate!</div>
+        <span class="step-tag" style="background:var(--teal-l);color:var(--teal)">STUDENT MODEL</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-left"><div class="step-circle" style="background:var(--amber)">4</div></div>
+      <div class="step-body">
+        <div class="step-title">முழு Wikipedia Run!</div>
+        <div class="step-desc">Propositionizer வச்சு whole Wikipedia process பண்ணினாங்க. <strong>500 GPU hours — 20 நாள் non-stop!</strong> Result: 25.7 கோடி propositions!</div>
+        <span class="step-tag" style="background:var(--amber-l);color:var(--amber)">FACTOIDWIKI READY</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-teal">
+    <strong>Knowledge Distillation</strong> = Expert (GPT-4) கத்துக்கொடுத்ததை வச்சு, சின்ன model (Flan-T5) கத்துக்கிட்டது. Sachin Tendulkar கத்துக்கொடுத்தா, நீ உன் தம்பிக்கு கத்துக்கொடுப்பே — அதே மாதிரி!
+  </div>
+</div>
+
+<!-- ════════════ PART 4 ════════════ -->
+<div class="part-section" id="p4">
+  <div class="part-banner p4">
+    <div class="part-num">PART 04 / 08</div>
+    <div class="part-title">Experiment எப்படி பண்ணாங்க?</div>
+    <div class="part-desc">5 Datasets × 4 Models × 3 Methods = 60 combinations</div>
+  </div>
+
+  <div class="grid2" style="margin-bottom:1.5rem">
+    <div class="card" style="border-color:var(--blue)">
+      <div style="color:var(--blue);font-size:.7rem;font-family:'Space Mono',monospace;margin-bottom:.5rem">TEST 1</div>
+      <div style="font-weight:600;margin-bottom:.4rem">Retrieval Recall</div>
+      <div style="font-size:.8rem;color:var(--muted);line-height:1.6">சரியான passage கிடைக்குதா? Top-5 மற்றும் Top-20 results பாத்தாங்க.</div>
+      <div style="margin-top:.8rem;font-size:.75rem;background:var(--blue-l);color:var(--blue);padding:.3rem .7rem;border-radius:6px;display:inline-block;font-family:'Space Mono',monospace">Recall@5 / Recall@20</div>
+    </div>
+    <div class="card" style="border-color:var(--teal)">
+      <div style="color:var(--teal);font-size:.7rem;font-family:'Space Mono',monospace;margin-bottom:.5rem">TEST 2</div>
+      <div style="font-weight:600;margin-bottom:.4rem">QA Accuracy</div>
+      <div style="font-size:.8rem;color:var(--muted);line-height:1.6">சரியான answer கிடைக்குதா? Retrieved text-ஐ AI-க்கு கொடுத்து test பண்ணாங்க.</div>
+      <div style="margin-top:.8rem;font-size:.75rem;background:var(--teal-l);color:var(--teal);padding:.3rem .7rem;border-radius:6px;display:inline-block;font-family:'Space Mono',monospace">Exact Match (EM)</div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--amber);margin-bottom:1rem;font-size:1rem">5 Datasets:</h3>
+  <table class="styled-table">
+    <tr><th>Dataset</th><th>என்ன மாதிரி கேள்விகள்?</th></tr>
+    <tr><td>Natural Questions (NQ)</td><td>Google-ல மனுஷங்க கேட்ட real questions</td></tr>
+    <tr><td>TriviaQA (TQA)</td><td>Quiz show மாதிரி trivia கேள்விகள்</td></tr>
+    <tr><td>WebQuestions (WebQ)</td><td>Web-ல இருந்து எடுத்த கேள்விகள்</td></tr>
+    <tr><td>SQuAD</td><td>Reading comprehension கேள்விகள்</td></tr>
+    <tr><td><strong>Entity Questions (EQ) ★</strong></td><td><strong>Rare entities பத்தி — HARDEST test!</strong></td></tr>
+  </table>
+
+  <h3 style="color:var(--amber);margin:1.5rem 0 1rem;font-size:1rem">4 AI Models:</h3>
+  <div class="grid2">
+    <div class="card">
+      <div style="font-size:.7rem;font-family:'Space Mono',monospace;color:var(--muted);margin-bottom:.6rem">UNSUPERVISED — QA பாக்கல</div>
+      <div style="font-size:.85rem;margin-bottom:.4rem"><strong>SimCSE</strong> — Wikipedia sentences மட்டும்</div>
+      <div style="font-size:.85rem"><strong>Contriever</strong> — Wikipedia + web data</div>
+    </div>
+    <div class="card" style="border-color:var(--blue)">
+      <div style="font-size:.7rem;font-family:'Space Mono',monospace;color:var(--blue);margin-bottom:.6rem">SUPERVISED — QA data வச்சு train</div>
+      <div style="font-size:.85rem;margin-bottom:.4rem"><strong>DPR</strong> — Real QA pairs fine-tuned</div>
+      <div style="font-size:.85rem"><strong>GTR</strong> — MS MARCO + NQ trained</div>
+    </div>
+  </div>
+  <div class="callout callout-amber" style="margin-top:1rem">
+    <strong>Fair comparison:</strong> Same datasets + Same models + Only granularity மாத்தினாங்க → Result மட்டும் proposition-ஓட size change-ஆல வருது!
+  </div>
+</div>
+
+<!-- ════════════ PART 5 ════════════ -->
+<div class="part-section" id="p5">
+  <div class="part-banner p5">
+    <div class="part-num">PART 05 / 08</div>
+    <div class="part-title">Results என்ன வந்துச்சு?</div>
+    <div class="part-desc">Proposition எல்லா இடத்திலும் வெல்லுது!</div>
+  </div>
+
+  <h3 style="color:var(--red);margin-bottom:1rem;font-size:1rem">Contriever — Average Recall@5 (5 datasets avg):</h3>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label">Passage</div>
+      <div class="bar-track"><div class="bar-fill" data-w="62" style="background:var(--red)">43.0%</div></div>
+      <div class="bar-val" style="color:var(--red)">43.0</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Sentence</div>
+      <div class="bar-track"><div class="bar-fill" data-w="68" style="background:var(--blue)">47.3%</div></div>
+      <div class="bar-val" style="color:var(--blue)">47.3</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Proposition ★</div>
+      <div class="bar-track"><div class="bar-fill" data-w="76" style="background:var(--teal)">52.7%</div></div>
+      <div class="bar-val" style="color:var(--teal)">52.7</div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--red);margin:1.5rem 0 1rem;font-size:1rem">Entity Questions (Hardest) — Recall@5:</h3>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label">Passage</div>
+      <div class="bar-track"><div class="bar-fill" data-w="50" style="background:var(--red)">36.3%</div></div>
+      <div class="bar-val" style="color:var(--red)">36.3</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Sentence</div>
+      <div class="bar-track"><div class="bar-fill" data-w="60" style="background:var(--blue)">42.7%</div></div>
+      <div class="bar-val" style="color:var(--blue)">42.7</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Proposition ★</div>
+      <div class="bar-track"><div class="bar-fill" data-w="74" style="background:var(--teal)">51.7%</div></div>
+      <div class="bar-val" style="color:var(--teal)">51.7</div>
+    </div>
+  </div>
+
+  <div class="findings-grid">
+    <div class="finding-card" style="border-color:var(--teal)">
+      <div class="finding-num" style="color:var(--teal)">+10.1%</div>
+      <div class="finding-label">Unsupervised models-ல average Recall@20 improvement over passage</div>
+    </div>
+    <div class="finding-card" style="border-color:var(--blue)">
+      <div class="finding-num" style="color:var(--blue)">+2.7%</div>
+      <div class="finding-label">Supervised models-லும் better — QA data வச்சு train ஆனாலும் proposition வெல்லுது!</div>
+    </div>
+    <div class="finding-card" style="border-color:var(--amber)">
+      <div class="finding-num" style="color:var(--amber)">+25%</div>
+      <div class="finding-label">Entity Questions-ல DPR-உடன் relative improvement — Rare topics!</div>
+    </div>
+    <div class="finding-card" style="border-color:var(--purple)">
+      <div class="finding-num" style="color:var(--purple)">98%+</div>
+      <div class="finding-label">Cases-ல proposition consistently வெல்லுது — கிட்டத்தட்ட எல்லா இடத்திலும்!</div>
+    </div>
+  </div>
+
+  <table class="styled-table">
+    <tr><th>Method</th><th>Avg Recall@5</th><th>Avg Recall@20</th></tr>
+    <tr><td>Passage</td><td style="color:var(--red)">43.0%</td><td style="color:var(--red)">62.8%</td></tr>
+    <tr><td>Sentence</td><td style="color:var(--blue)">47.3%</td><td style="color:var(--blue)">66.1%</td></tr>
+    <tr><td><strong>Proposition ★</strong></td><td style="color:var(--teal)"><strong>52.7%</strong></td><td style="color:var(--teal)"><strong>70.5%</strong></td></tr>
+  </table>
+</div>
+
+<!-- ════════════ PART 6 ════════════ -->
+<div class="part-section" id="p6">
+  <div class="part-banner p6">
+    <div class="part-num">PART 06 / 08</div>
+    <div class="part-title">LLM-க்கு எப்படி உதவுது?</div>
+    <div class="part-desc">RAG + Token Budget = Proposition Superpower</div>
+  </div>
+
+  <h3 style="color:#d4537e;margin-bottom:1rem;font-size:1rem">RAG — Retrieval Augmented Generation என்றால் என்ன?</h3>
+  <div class="rag-flow">
+    <div class="rag-step">
+      <div class="rag-icon" style="background:var(--purple-l);font-size:1.2rem">💬</div>
+      <div class="rag-content"><div class="rt">நீ கேள்வி கேக்குற</div><div class="rd">"இந்தியாவின் தலைநகரம் எது?" — ChatGPT-கிட்ட கேக்குற</div></div>
+    </div>
+    <div class="rag-step">
+      <div class="rag-icon" style="background:var(--blue-l);font-size:1.2rem">🔍</div>
+      <div class="rag-content"><div class="rt">AI முதல்ல தேடுது (Retrieval)</div><div class="rd">Wikipedia database-ல search பண்ணி relevant text எடுக்குது</div></div>
+    </div>
+    <div class="rag-step">
+      <div class="rag-icon" style="background:var(--teal-l);font-size:1.2rem">📋</div>
+      <div class="rag-content"><div class="rt">Retrieved text-ஐ AI-க்கு கொடுக்குது</div><div class="rd">"இந்த context பாத்து பதில் சொல்" னு AI brain-க்கு pass பண்றது</div></div>
+    </div>
+    <div class="rag-step">
+      <div class="rag-icon" style="background:var(--amber-l);font-size:1.2rem">✅</div>
+      <div class="rag-content"><div class="rt">AI பதில் சொல்லுது (Generation)</div><div class="rd">"இந்தியாவின் தலைநகரம் நிஉ டெல்லி" — perfect answer!</div></div>
+    </div>
+  </div>
+
+  <h3 style="color:#d4537e;margin:1.5rem 0 1rem;font-size:1rem">Token Budget Problem — 500 words-ல யாரு அதிக info தருது?</h3>
+  <div class="compare-row">
+    <div class="compare-card cc-red">
+      <div class="cc-label">PASSAGE</div>
+      <div class="cc-title">~2 passages</div>
+      <div class="cc-body">500 words = 2 பெரிய chunks. நிறைய noise, relevant info கொஞ்சம் மட்டும்</div>
+      <div style="margin-top:.8rem;font-size:1.3rem;font-weight:700;font-family:'Space Mono',monospace;color:var(--red)">38.5%</div>
+      <div style="font-size:.7rem;color:var(--muted)">EM@500 (GTR)</div>
+    </div>
+    <div class="compare-card cc-blue">
+      <div class="cc-label">SENTENCE</div>
+      <div class="cc-title">~5 sentences</div>
+      <div class="cc-body">Better! ஆனா சில sentences context இல்லாம போகும்</div>
+      <div style="margin-top:.8rem;font-size:1.3rem;font-weight:700;font-family:'Space Mono',monospace;color:var(--blue)">40.1%</div>
+      <div style="font-size:.7rem;color:var(--muted)">EM@500 (GTR)</div>
+    </div>
+    <div class="compare-card cc-teal">
+      <div class="cc-label">PROPOSITION ★</div>
+      <div class="cc-title">~10 clean facts</div>
+      <div class="cc-body">Same 500 words = 10 complete facts! எல்லாமே useful info!</div>
+      <div style="margin-top:.8rem;font-size:1.3rem;font-weight:700;font-family:'Space Mono',monospace;color:var(--teal)">41.3%</div>
+      <div style="font-size:.7rem;color:var(--muted)">EM@500 (GTR)</div>
+    </div>
+  </div>
+
+  <div class="stat-grid" style="margin-top:1.5rem">
+    <div class="stat-card" style="background:var(--purple-l);border-color:var(--purple)">
+      <div class="s-num" style="color:var(--purple)">+4.1%</div>
+      <div class="s-lbl">SimCSE EM@500 improvement</div>
+    </div>
+    <div class="stat-card" style="background:var(--blue-l);border-color:var(--blue)">
+      <div class="s-num" style="color:var(--blue)">+3.2%</div>
+      <div class="s-lbl">Contriever improvement</div>
+    </div>
+    <div class="stat-card" style="background:var(--teal-l);border-color:var(--teal)">
+      <div class="s-num" style="color:var(--teal)">+2.8%</div>
+      <div class="s-lbl">GTR improvement</div>
+    </div>
+  </div>
+  <div class="callout callout-purple" style="margin-top:1rem">
+    <strong>Core insight:</strong> Same budget-ல proposition கொடுத்தா — அதிக clean facts pack ஆகும், AI better answers கொடுக்கும், faster ஆ இயங்கும்!
+  </div>
+</div>
+
+<!-- ════════════ PART 7 ════════════ -->
+<div class="part-section" id="p7">
+  <div class="part-banner p7">
+    <div class="part-num">PART 07 / 08</div>
+    <div class="part-title">Rare Topics-க்கு ஏன் Best?</div>
+    <div class="part-desc">Frequency குறையக் குறைய, Advantage அதிகமாகும்!</div>
+  </div>
+
+  <div class="grid2" style="margin-bottom:1.5rem">
+    <div class="card" style="border-color:var(--teal)">
+      <div style="font-size:.7rem;font-family:'Space Mono',monospace;color:var(--teal);margin-bottom:.5rem">COMMON ENTITIES</div>
+      <div style="font-weight:600;margin-bottom:.4rem">Virat Kohli, Einstein, India</div>
+      <div style="font-size:.8rem;color:var(--muted);line-height:1.6">Wikipedia-ல ஆயிரக்கணக்கான pages. எந்த method-லயும் easily find ஆகும்.</div>
+      <div style="margin-top:.8rem;font-size:.85rem;color:var(--teal);font-weight:600">Proposition advantage: ~+5% மட்டும்</div>
+    </div>
+    <div class="card" style="border-color:var(--red)">
+      <div style="font-size:.7rem;font-family:'Space Mono',monospace;color:var(--red);margin-bottom:.5rem">RARE ENTITIES</div>
+      <div style="font-weight:600;margin-bottom:.4rem">Unknown scientists, small villages</div>
+      <div style="font-size:.8rem;color:var(--muted);line-height:1.6">Wikipedia-ல ஒரே ஒரு சின்ன para. Passage-ல மூழ்கிடும்!</div>
+      <div style="margin-top:.8rem;font-size:.85rem;color:var(--red);font-weight:600">Proposition advantage: +25% வரை! 🔥</div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--green);margin-bottom:1rem;font-size:1rem">DPR — Entity Questions — Recall@5:</h3>
+  <p style="font-size:.8rem;color:var(--muted);margin-bottom:.6rem"><strong style="color:var(--text)">Rare entities</strong> (frequency ≤ 3):</p>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label">Passage</div>
+      <div class="bar-track"><div class="bar-fill" data-w="50" style="background:var(--red)">35%</div></div>
+      <div class="bar-val" style="color:var(--red)">35%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Sentence</div>
+      <div class="bar-track"><div class="bar-fill" data-w="57" style="background:var(--blue)">40%</div></div>
+      <div class="bar-val" style="color:var(--blue)">40%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Proposition ★</div>
+      <div class="bar-track"><div class="bar-fill" data-w="86" style="background:var(--green)">60%</div></div>
+      <div class="bar-val" style="color:var(--green)">60%</div>
+    </div>
+  </div>
+  <p style="font-size:.8rem;color:var(--muted);margin:.8rem 0 .6rem"><strong style="color:var(--text)">Common entities</strong> (high frequency):</p>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label">Passage</div>
+      <div class="bar-track"><div class="bar-fill" data-w="85" style="background:var(--red)">68%</div></div>
+      <div class="bar-val" style="color:var(--red)">68%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Sentence</div>
+      <div class="bar-track"><div class="bar-fill" data-w="88" style="background:var(--blue)">70%</div></div>
+      <div class="bar-val" style="color:var(--blue)">70%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Proposition ★</div>
+      <div class="bar-track"><div class="bar-fill" data-w="91" style="background:var(--green)">73%</div></div>
+      <div class="bar-val" style="color:var(--green)">73%</div>
+    </div>
+  </div>
+
+  <div class="callout callout-teal" style="margin-top:1rem">
+    <strong>ஏன் இப்படி?</strong> Rare topic-ஓட fact ஒரு பெரிய passage-ல மூழ்கி போயிருக்கும். Proposition ஆக பிரிச்சா — அந்த rare fact தனியா தெளிவா தெரியும். AI easily match பண்ணும்! <strong>Frequency குறையக் குறைய, proposition-ஓட advantage அதிகமாகும்!</strong>
+  </div>
+</div>
+
+<!-- ════════════ PART 8 ════════════ -->
+<div class="part-section" id="p8">
+  <div class="part-banner p8">
+    <div class="part-num">PART 08 / 08</div>
+    <div class="part-title">Limitations + Final Wrap Up</div>
+    <div class="part-desc">Honest mistakes மற்றும் complete summary</div>
+  </div>
+
+  <h3 style="color:var(--muted);margin-bottom:1rem;font-size:1rem">Paper-ஓட 3 Limitations:</h3>
+
+  <div class="limit-card">
+    <div class="limit-badge" style="background:var(--amber-l)">⚠️</div>
+    <div>
+      <div class="limit-title">Wikipedia மட்டும் test பண்ணாங்க</div>
+      <div class="limit-body">News articles, research papers, books — இதுல proposition எப்படி work ஆகுதுன்னு test பண்ணல. Other databases-ல different results வரலாம்!</div>
+      <span class="limit-future" style="background:var(--amber-l);color:var(--amber)">→ Future: Other databases test பண்ணணும்</span>
+    </div>
+  </div>
+
+  <div class="limit-card">
+    <div class="limit-badge" style="background:var(--blue-l)">🌐</div>
+    <div>
+      <div class="limit-title">English மட்டும்</div>
+      <div class="limit-body">Tamil, Hindi, French, Chinese — other languages-ல proposition work ஆகுமா? தெரியல! ஒரே ஒரு மொழியில் மட்டும் prove பண்ணினாங்க.</div>
+      <span class="limit-future" style="background:var(--blue-l);color:var(--blue)">→ Future: Multilingual explore பண்ணணும்</span>
+    </div>
+  </div>
+
+  <div class="limit-card">
+    <div class="limit-badge" style="background:var(--red-l)">🔀</div>
+    <div>
+      <div class="limit-title">Multi-hop Questions-ல Fail ஆகும்</div>
+      <div class="limit-body">"Layer Cake movie main character பேர் என்ன?" — actor பேரும், character பேரும் இரண்டு வேற propositions-ல இருக்கும். இரண்டையும் combine பண்ண proposition alone போதாது!</div>
+      <span class="limit-future" style="background:var(--red-l);color:var(--red)">→ Future: Multi-hop reasoning integrate பண்ணணும்</span>
+    </div>
+  </div>
+
+  <div class="summary-hero" style="margin-top:2rem">
+    <h3>Paper-ஓட Core Message</h3>
+    <p style="margin-top:.5rem">தகவலை எப்படி சேமிக்கிறோம்னு மாத்தினா மட்டுமே — AI இன்னும் smart ஆகும். Training மாத்தல, model மாத்தல — <strong style="color:var(--teal)">index பண்ற விதம் மட்டும் மாத்தினோம்!</strong></p>
+  </div>
+
+  <h3 style="color:var(--purple);margin:1.5rem 0 1rem;font-size:1rem">நீ இப்போ என்ன தெரிஞ்சுக்கிட்டே:</h3>
+  <div class="checklist">
+    <div class="check-item"><div class="check-icon">✓</div><div class="check-text"><strong>Dense Retrieval</strong> = AI தகவல் தேடும் technique — Wikipedia மாதிரி database-ல search</div></div>
+    <div class="check-item"><div class="check-icon">✓</div><div class="check-text"><strong>Proposition</strong> = சின்னதா + தெளிவா + self-contained (3 rules!) — paper-ஓட main idea</div></div>
+    <div class="check-item"><div class="check-icon">✓</div><div class="check-text"><strong>FactoidWiki</strong> = 25.7 கோடி propositions உள்ள Wikipedia — 500 GPU hours build ஆனது</div></div>
+    <div class="check-item"><div class="check-icon">✓</div><div class="check-text"><strong>Key Result</strong> = Proposition எல்லா models-லயும், எல்லா datasets-லயும் வெல்லுது</div></div>
+    <div class="check-item"><div class="check-icon">✓</div><div class="check-text"><strong>Rare Topics</strong> = +25% improvement — paper-ஓட biggest surprise!</div></div>
+    <div class="check-item"><div class="check-icon">✓</div><div class="check-text"><strong>LLM Advantage</strong> = Same token budget-ல அதிக useful facts → better answers</div></div>
+  </div>
+
+  <h3 style="color:var(--purple);margin:1.5rem 0 1rem;font-size:1rem">Quick Reference Card:</h3>
+  <div class="qr-grid">
+    <div class="qr-item"><div class="qr-key">PASSAGE</div><div class="qr-val">~100 words | 4.1 கோடி | Noisy</div></div>
+    <div class="qr-item"><div class="qr-key">SENTENCE</div><div class="qr-val">~21 words | 11.4 கோடி | Not self-contained</div></div>
+    <div class="qr-item" style="border-color:var(--teal)"><div class="qr-key" style="color:var(--teal)">PROPOSITION ★</div><div class="qr-val">~11 words | 25.7 கோடி | Best!</div></div>
+    <div class="qr-item"><div class="qr-key">RECALL GAIN</div><div class="qr-val">Passage 43% → Proposition 53%</div></div>
+    <div class="qr-item"><div class="qr-key">RARE TOPICS</div><div class="qr-val">+25% improvement (DPR, EQ)</div></div>
+    <div class="qr-item"><div class="qr-key">LLM GAIN</div><div class="qr-val">+4.1% SimCSE | +3.2% Contriever | +2.8% GTR</div></div>
+    <div class="qr-item"><div class="qr-key">PROPOSITIONIZER</div><div class="qr-val">GPT-4 → Flan-T5 | F1: 0.822 | 500 GPU hrs</div></div>
+    <div class="qr-item"><div class="qr-key">LIMITATIONS</div><div class="qr-val">Only Wikipedia | Only English | Multi-hop fails</div></div>
+  </div>
+
+  <div style="text-align:center;padding:2rem 0 1rem;color:var(--muted);font-size:.8rem">
+    EMNLP 2024 · Tong Chen, Hongwei Wang, Sihao Chen et al. · University of Washington / Tencent AI Lab
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Reading progress bar
+const bar = document.getElementById('readingBar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+  document.getElementById('backTop').classList.toggle('show', window.scrollY > 400);
+  // nav highlight
+  const parts = ['p1','p2','p3','p4','p5','p6','p7','p8'];
+  const btns = document.querySelectorAll('.nav-btn');
+  parts.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top <= 100 && rect.bottom > 0) {
+      btns.forEach(b => b.classList.remove('active'));
+      btns[i] && btns[i].classList.add('active');
+    }
+  });
+});
+
+// Scroll to section
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// Animate bars on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.bar-fill').forEach(fill => {
+        const w = fill.dataset.w || '50';
+        fill.style.width = w + '%';
+      });
+      observer.unobserve(entry.target);
+    }
+  });
+}, {threshold: 0.2});
+
+document.querySelectorAll('.bar-chart').forEach(chart => observer.observe(chart));
+
+// Stagger fade-in for cards
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, {threshold: 0.1});
+
+document.querySelectorAll('.card, .compare-card, .stat-card, .finding-card, .rule-item, .limit-card, .qr-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity .5s ease, transform .5s ease';
+  fadeObserver.observe(el);
+});
+</script>
+</body>
+</html>
